@@ -1,33 +1,33 @@
-#ifndef _MARKOV_CHAIN_H
-#define _MARKOV_CHAIN_H
-
+#ifndef _MARKOV_CHAIN_H_
+#define _MARKOV_CHAIN_H_
+#define BAD_CHAIN "there is a problem with your chain"
 #include "linked_list.h"
 #include <stdio.h>  // For printf(), sscanf()
 #include <stdlib.h> // For exit(), malloc()
 #include <stdbool.h> // for bool
+#include <errno.h>
 
 #define ALLOCATION_ERROR_MASSAGE "Allocation failure: Failed to allocate new memory\n"
+typedef void(*print_func)(const void *) ;
+typedef int(*comp_func) (const void*, const void *) ;
+typedef void (*free_data)(void *) ;
+typedef void* (*copy_func)(const void *) ;
+typedef bool (*is_last)(const void *) ;
 
 
-/***************************/
-/*   insert typedefs here  */
-/***************************/
+/**
+ * insert MarkovChain struct
+ */
+struct MarkovNode;
 
-
-/***************************/
-
-
-
-/***************************/
-/*        STRUCTS          */
-/***************************/
-typedef struct NextNodeCounter;
-
-typedef struct MarkovNode {
-    void *data; //pointer to word
-    NextNodeCounter *counter_list; //point to all possible next words
-    int counter_list_size ;
-} MarkovNode;
+typedef struct MarkovChain {
+    LinkedList *database;//list with all the unique words in the text
+    print_func  print_func ;
+    comp_func comp_func;
+    free_data free_data ;
+    copy_func copy_func;
+    is_last is_last ;
+} MarkovChain;
 
 typedef struct NextNodeCounter {
     struct MarkovNode *markov_node ; //point to the node with the next possible word
@@ -35,38 +35,12 @@ typedef struct NextNodeCounter {
     // appears right after word 1 in the text
 } NextNodeCounter;
 
-/* DO NOT ADD or CHANGE variable names in this struct */
-typedef struct MarkovChain {
-    LinkedList *database;
-    //void *print_func(a) ;
-    typedef int *comp_func(a, b) ;
-    //void *free_data(a) ;
-    //typedef char[] *copy_func(a) ;
-    //typedef bool is_last(a) ;
+typedef struct MarkovNode {
+    void *data; //pointer to word
+    NextNodeCounter *counter_list;//point to all possible next words
+    int counter_list_size ;
+} MarkovNode;
 
-    // pointer to a func that receives data from a generic type and prints it
-    // returns void.
-    /* <fill_type> */ print_func;
-
-    // pointer to a func that gets 2 pointers of generic data type(same one) and compare between them */
-    // returns: - a positive value if the first is bigger
-    //          - a negative value if the second is bigger
-    //          - 0 if equal
-    /* <fill_type> */ comp_func;
-
-    // a pointer to a function that gets a pointer of generic data type and frees it.
-    // returns void.
-    /*<fill_type>*/ free_data;
-
-    // a pointer to a function that  gets a pointer of generic data type and returns a newly allocated copy of it
-    // returns a generic pointer.
-    /*<fill_type>*/ copy_func;
-
-    //  a pointer to function that gets a pointer of generic data type and returns:
-    //      - true if it's the last state.
-    //      - false otherwise.
-    /*<fill_type>*/ is_last;
-} MarkovChain;
 
 /**
  * Get one random state from the given markov_chain's database.
