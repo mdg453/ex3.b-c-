@@ -10,5 +10,6 @@ add_executable(ex3b_meitar453
         linked_list.c
         linked_list.h
         markov_chain.h
-        snakes_and_ladders.c
+        markov_chain.c
+#        snakes_and_ladders.c
         tweets_generator.c)
