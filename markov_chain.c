@@ -204,7 +204,8 @@ Node* get_node_from_database(MarkovChain *markov_chain, void *data_ptr){
         return NULL ;
     }
     Node *traveler = markov_chain->database->first;
-    for (int i = 0; i < markov_chain->database->size && traveler != NULL; i++) {
+    for (int i = 0; i < markov_chain->database->size && traveler != NULL; i++)
+    {
         if (markov_chain->comp_func(traveler->data->data, data_ptr) == 0){
             return traveler;
         }

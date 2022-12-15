@@ -83,7 +83,7 @@ int main(int argc ,char* argv[]){
     if(base_root == NULL) {
         return EXIT_FAILURE;
     }
-    LinkedList *linked_list = malloc(sizeof(LinkedList)) ;
+    LinkedList *linked_list = calloc(1, sizeof(LinkedList)) ;
     if(linked_list == NULL){
         fprintf(stderr,ALLOCATION_ERROR_MASSAGE) ;
         return EXIT_FAILURE ;
