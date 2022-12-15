@@ -13,6 +13,5 @@ snakes_and_ladders.o: snakes_and_ladders.c markov_chain.o linked_list.o
 markov_chain.o: markov_chain.c markov_chain.h linked_list.o
 	gcc -c markov_chain.c
 
-
 linked_list.o: linked_list.c linked_list.h
 	gcc -c linked_list.c

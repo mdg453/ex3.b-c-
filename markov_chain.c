@@ -17,7 +17,7 @@ int get_random_number(int max_number)
 {
     return rand() % max_number;
 }
-
+/*
 void* my_bsearch(const void* key, const void* base, size_t nmeb, size_t size, cmp_func_t cmp){
     const char *b = (const char *) base ;
     size_t start = 0 , end = nmeb, mid = 0 ;
@@ -38,7 +38,7 @@ void* my_bsearch(const void* key, const void* base, size_t nmeb, size_t size, cm
     return NULL ;
 }
 
-
+*/
 
 void *my_memcpy (void* dest, const void *src, size_t size) {
     char *d = (char *)dest ;
@@ -48,7 +48,7 @@ void *my_memcpy (void* dest, const void *src, size_t size) {
     }
     return dest ;
 }
-
+/*
 int int_cmp(const void *a, const void *b){
     const int * pa = (const int*) a ;
     const int * pb = (const int*) b ;
@@ -62,7 +62,7 @@ int string_cmp(const void *a, const void *b){
     return strcmp(*pa, *pb);
 
 }
-
+*/
 
 /**
  * Get one random state from the given markov_chain's database.

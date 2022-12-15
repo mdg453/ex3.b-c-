@@ -10,6 +10,7 @@
 #define ARGC3 3
 #define DICE_MAX 6
 #define NUM_OF_TRANSITIONS 20
+#define DATABASE_ERROR_MASSAGE "database has crashed!"
 
 /**
  * represents the transitions by ladders and snakes in the game
@@ -46,13 +47,13 @@ typedef struct Cell {
     //both ladder_to and snake_to should be -1 if the Cell doesn't have them
 } Cell;
 
-void print_fun(const void * to_print) {
+void print_func1(const void * to_print) {
     const Cell *c = (Cell*)to_print ;
     printf("[%d]",c->number) ;
-    if (c->ladder_to != EMPTY){
+    if (c->ladder_to == EMPTY){
         printf("-ladder to %d",c->ladder_to) ;
     }
-    if (c->snake_to != EMPTY){
+    if (c->snake_to == EMPTY){
         printf("-snake to %d",c->snake_to) ;
     }
     printf(" -> ") ;
@@ -79,9 +80,9 @@ static void* copy_fun (const void * cp){
 static bool is_last_func(const void* last){
     Cell * last_cell = (Cell *) (last) ;
     if(last_cell->number == BOARD_SIZE) {
-        return  1 ;
+        return  EXIT_FAILURE ;
     }
-    return  0 ;
+    return  EXIT_SUCCESS ;
 }
 
 /** Error handler **/
@@ -216,13 +217,18 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
     base_root->database = linked_list ;
-    *base_root = (MarkovChain){linked_list, &print_fun, &comp_fun,
-                               &free_data_fun,copy_fun,is_last_func} ;
-    fill_database(base_root) ;
+    *base_root = (MarkovChain){linked_list, &print_func1, &comp_fun,
+                               &free_data_fun, copy_fun, is_last_func} ;
+    if(fill_database(base_root)){
+        fprintf(stderr, DATABASE_ERROR_MASSAGE) ;
+        return EXIT_FAILURE;
+    }
+    printf("\n%d\n",base_root->database->size) ;
     for (int i = 0 ; i < players_num; i++){
         printf("Random Walk %d: ", i) ;
         generate_random_sequence(base_root,base_root->database->first->data,MAX_GENERATION_LENGTH) ;
     }
+    print_func1(base_root->database->first->next->next->next->next->next->next->next->data->data) ;
     MarkovChain **point_to_base = &base_root ;
     free_markov_chain(point_to_base) ;
 }

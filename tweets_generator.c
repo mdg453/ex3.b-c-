@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <string.h>
-#include <assert.h>
 #include "linked_list.h"
 #include "markov_chain.h"
 #define WRONG_INPUT "Usage: int int filepath int"
@@ -10,14 +9,10 @@
 #define NUM_OF_CHARS  100000000
 #define NUM1000 1000
 #define MAX_TWEET_LEN 20
-//int *p = void* bsearch(&to_find, const void pinter, count, sizeofint, *(int compare(void, void))
-//if p == NULL return Exit
-//printf("%d", *p)
-//qsort(arr, nmemb, sizeof(char*),cmp)
 #define LAST_INDX(s) (strlen(s) - 1)
 
 
-void print_fun(const void * to_print) {
+void print_func1(const void * to_print) {
     const char *s = to_print ;
     printf("%s",s) ;
 }
@@ -86,7 +81,7 @@ int main(int argc ,char* argv[]){
         fprintf(stderr,ALLOCATION_ERROR_MASSAGE) ;
         return EXIT_FAILURE ;
     }
-    *base_root = (MarkovChain){linked_list, &print_fun, &comp_fun,
+    *base_root = (MarkovChain){linked_list, &print_func1, &comp_fun,
                                &free_data_fun,copy_fun,is_last_func} ;
 
     base_root->database = linked_list ;
