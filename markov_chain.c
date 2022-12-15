@@ -85,7 +85,7 @@ void generate_random_sequence(MarkovChain *markov_chain,
     }
 //    first_node = get_first_random_node(markov_chain) ;
     markov_chain->print_func(first_node->data) ;
-    int j = 2 ;
+    int j = 1 ;
     while (!markov_chain->is_last(first_node->data) &&
            j < max_length) {
         first_node = get_next_random_node(first_node);
