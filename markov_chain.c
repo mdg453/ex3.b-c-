@@ -51,14 +51,14 @@ void *my_memcpy (void* dest, const void *src, size_t size) {
 
 int int_cmp(const void *a, const void *b){
     const int * pa = (const int*) a ;
-    const int * pb = (const int*) a ;
+    const int * pb = (const int*) b ;
     return *pa - *pb ;
 
 }
 
 int string_cmp(const void *a, const void *b){
     const string * pa = (const string *) a ;
-    const string * pb = (const string *) a ;
+    const string * pb = (const string *) b ;
     return strcmp(*pa, *pb);
 
 }

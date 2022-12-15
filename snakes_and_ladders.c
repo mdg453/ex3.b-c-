@@ -78,7 +78,7 @@ static void* copy_fun (const void * cp){
 }
 static bool is_last_func(const void* last){
     Cell * last_cell = (Cell *) (last) ;
-    if(last_cell->number == 100) {
+    if(last_cell->number == BOARD_SIZE) {
         return  1 ;
     }
     return  0 ;

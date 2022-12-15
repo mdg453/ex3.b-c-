@@ -25,7 +25,7 @@ void print_fun(const void * to_print) {
 static int comp_fun (const void* a , const void * b) {
     const char* a1 = a ;
     const char* b1 = b ;
-    return(strcmp(a,b)) ;
+    return(strcmp(a1,b1)) ;
 }
 
 static void free_data_fun (void * dp) {
