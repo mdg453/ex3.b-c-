@@ -42,8 +42,10 @@ const int transitions[][2] = {{13, 4},
  */
 typedef struct Cell {
     int number; // Cell number 1-100
-    int ladder_to;  // ladder_to represents the jump of the ladder in case there is one from this square
-    int snake_to;  // snake_to represents the jump of the snake in case there is one from this square
+    int ladder_to;  // ladder_to represents the jump of the
+    // ladder in case there is one from this square
+    int snake_to;  // snake_to represents the jump of the
+    // snake in case there is one from this square
     //both ladder_to and snake_to should be -1 if the Cell doesn't have them
 } Cell;
 
@@ -225,4 +227,5 @@ int main(int argc, char *argv[]) {
     }
     MarkovChain **point_to_base = &base_root ;
     free_markov_chain(point_to_base) ;
+    return EXIT_SUCCESS ;
 }

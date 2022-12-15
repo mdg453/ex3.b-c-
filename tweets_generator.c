@@ -81,8 +81,9 @@ int main(int argc ,char* argv[]){
         fprintf(stderr,ALLOCATION_ERROR_MASSAGE) ;
         return EXIT_FAILURE ;
     }
-    *base_root = (MarkovChain){linked_list, print_func_tweets, comp_fun_tweets,
-                               free_data_fun_tweets,copy_fun_tweets,is_last_func_tweets} ;
+    *base_root = (MarkovChain){linked_list, print_func_tweets,
+                               comp_fun_tweets,free_data_fun_tweets,
+                                    copy_fun_tweets,is_last_func_tweets} ;
 
     base_root->database = linked_list ;
     FILE* in = fopen ( input_path, "r") ;
@@ -101,4 +102,5 @@ int main(int argc ,char* argv[]){
     //printf("\n%d",base_root->database->size);
     free_markov_chain(point_to_base) ;
     fclose(in) ;
+    return EXIT_SUCCESS ;
 }

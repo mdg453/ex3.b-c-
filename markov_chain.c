@@ -189,7 +189,8 @@ bool add_node_to_counter_list(MarkovNode *first_node, MarkovNode
 
 }
 /**
-* Check if data_ptr is in database. If so, return the markov_node wrapping it in
+* Check if data_ptr is in database. If so,
+ * return the markov_node wrapping it in
  * the markov_chain, otherwise return NULL.
  * @param markov_chain the chain to look in its database
  * @param data_ptr the state to look for
