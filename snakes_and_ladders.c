@@ -84,10 +84,7 @@ static void* copy_fun_snake (const void * cp){
 }
 static bool is_last_func_snake(const void* last){
     Cell * last_cell = (Cell *)(last) ;
-    if(last_cell->number == BOARD_SIZE) {
-        return  1 ;
-    }
-    return  0 ;
+    return (last_cell->number == BOARD_SIZE);
 }
 
 /** Error handler **/
@@ -193,25 +190,26 @@ static int fill_database(MarkovChain *markov_chain)
  * @return EXIT_SUCCESS or EXIT_FAILURE
  */
 int main(int argc, char *argv[]) {
-    if(argc != ARGC3){
+    if(argc < ARGC3){
         fprintf(stderr, WRONG_INPUT) ;
         return EXIT_FAILURE ;
     }
-    int seed = (int)strtol(argv[1], NULL, 10);
+    long int seed = strtol(argv[1], NULL, 10);
     srand(seed);
 
-    int players_num = (int) strtol(argv[2], NULL, 10);
+    unsigned int players_num = strtol(argv[2], NULL, 10);
     if (players_num < 1){
         fprintf(stderr, WRONG_INPUT) ;
         return EXIT_FAILURE ;
     }
-    MarkovChain * base_root = malloc( sizeof (MarkovChain));
+    MarkovChain * base_root = calloc(1, sizeof (MarkovChain));
     if(base_root == NULL) {
         fprintf(stderr, ALLOCATION_ERROR_MASSAGE) ;
         return EXIT_FAILURE;
     }
-    LinkedList * linked_list = malloc(sizeof(LinkedList)) ;
+    LinkedList * linked_list = calloc(1,sizeof(LinkedList)) ;
     if(linked_list == NULL) {
+        free(base_root);
         fprintf(stderr, ALLOCATION_ERROR_MASSAGE) ;
         return EXIT_FAILURE;
     }
@@ -221,7 +219,7 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, DATABASE_ERROR_MASSAGE) ;
         return EXIT_FAILURE;
     }
-    for (int i = 0 ; i < players_num; i++){
+    for (unsigned int i = 1 ; i <= players_num; i++){
         printf("Random Walk %d: ", i) ;
         generate_random_sequence(base_root,base_root->database->first->data,MAX_GENERATION_LENGTH) ;
     }
