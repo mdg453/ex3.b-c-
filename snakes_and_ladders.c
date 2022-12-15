@@ -74,12 +74,16 @@ static int comp_fun_snake (const void* a , const void * b) {
 }
 
 static void free_data_fun_snake (void * dp) {
-    free(dp) ;
+    Cell * to_free = (Cell*) dp;
+    free(to_free) ;
 }
 
 static void* copy_fun_snake (const void * cp){
     Cell * cell_to_copy = (Cell *) cp ;
     Cell * coppied_cell = malloc(sizeof(Cell)) ;
+    if(coppied_cell == NULL) {
+        return NULL;
+    }
     memcpy(coppied_cell, cell_to_copy, sizeof(Cell));
     return coppied_cell;
 }

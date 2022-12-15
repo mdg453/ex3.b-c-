@@ -83,7 +83,6 @@ void generate_random_sequence(MarkovChain *markov_chain,
         fprintf(stderr, NUMS) ;
         return;
     }
-//    first_node = get_first_random_node(markov_chain) ;
     markov_chain->print_func(first_node->data) ;
     int j = 1 ;
     while (!markov_chain->is_last(first_node->data) &&
@@ -124,14 +123,16 @@ void free_markov_chain(MarkovChain ** ptr_chain){
         return;
     }
     for(int i = 0 ; i < markov_chain.database->size ; i++) {
-        markov_chain.free_data(markov_chain.database->first->data->data) ;
+        Node * placesaver =  markov_chain.database->first->next ;
         free(markov_chain.database->first->data->counter_list) ;
+        markov_chain.free_data(markov_chain.database->first->data->data) ;
         free(markov_chain.database->first->data) ;
-        markov_chain.database->first = markov_chain.database->first->next ;
+        free(markov_chain.database->first) ;
+        markov_chain.database->first = placesaver ;
     }
     free(markov_chain.database) ;
+    free(*ptr_chain);
     *ptr_chain = NULL ;
-
 }
 
 
@@ -150,14 +151,14 @@ bool add_node_to_counter_list(MarkovNode *first_node, MarkovNode
         return false;
     }
     if(markov_chain->is_last(first_node->data)) {
-        return EXIT_SUCCESS ;
+        return true ;
     }
     if (first_node->counter_list_size == 0)
     {
         first_node->counter_list = calloc(1, sizeof(NextNodeCounter));
         if(first_node->counter_list == NULL) {
             fprintf(stderr, ALLOCATION_ERROR_MASSAGE) ;
-            return EXIT_FAILURE ;
+            return false ;
         }
         first_node->counter_list_size++;
         first_node->counter_list[0] = (NextNodeCounter)
@@ -179,7 +180,7 @@ bool add_node_to_counter_list(MarkovNode *first_node, MarkovNode
                     (first_node->counter_list_size)*sizeof(NextNodeCounter));
     if(temp == NULL) {
         fprintf(stderr, ALLOCATION_ERROR_MASSAGE) ;
-        return EXIT_FAILURE ;
+        return false ;
     }
     first_node->counter_list = temp ;
     first_node->counter_list[first_node->counter_list_size-1] =
@@ -203,7 +204,7 @@ Node* get_node_from_database(MarkovChain *markov_chain, void *data_ptr){
         return NULL ;
     }
     Node *traveler = markov_chain->database->first;
-    for (int i = 0; i < markov_chain->database->size; i++) {
+    for (int i = 0; i < markov_chain->database->size && traveler != NULL; i++) {
         if (markov_chain->comp_func(traveler->data->data, data_ptr) == 0){
             return traveler;
         }
@@ -239,12 +240,12 @@ Node* add_to_database(MarkovChain *markov_chain, void *data_ptr){
         fprintf(stderr, ALLOCATION_ERROR_MASSAGE) ;
         return NULL ;
     }
-    markov_node->data = malloc(strlen(data_ptr)+1);
-    if(markov_node->data == NULL){
-        free(markov_node) ;
-        fprintf(stderr, ALLOCATION_ERROR_MASSAGE) ;
-        return NULL ;
-    }
+    //markov_node->data = malloc(strlen(data_ptr)+1);
+   // if(markov_node->data == NULL){
+    //    free(markov_node) ;
+    //    fprintf(stderr, ALLOCATION_ERROR_MASSAGE) ;
+    //    return NULL ;
+   // }
     markov_node->data = markov_chain->copy_func(data_ptr);
     markov_node->counter_list = NULL;
     markov_node->counter_list_size = 0;

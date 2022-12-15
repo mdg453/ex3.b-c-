@@ -53,7 +53,11 @@ static int fill_database (FILE *fp, int words_to_read,
             current_word = add_to_database(markov_chain, token) ;
             add_node_to_counter_list(previus_word, current_word->data,
                                      markov_chain);
-//            previus_word = copy_fun(current_word->data) ;
+            if(current_word == NULL)
+            {
+                fprintf(stderr,ALLOCATION_ERROR_MASSAGE);
+                return EXIT_FAILURE;
+            }
             previus_word = current_word->data;
             token = strtok(NULL, " \r\n");
             words_to_read--  ;
