@@ -93,8 +93,9 @@ int main(int argc ,char* argv[]){
     fill_database(in, num_of_chars_to_read,base_root);
     for (int i = 0 ; i<tweets_num; i ++) {
         printf("Tweet %d: ",i+1) ;
+        MarkovNode * first = get_first_random_node(base_root) ;
         generate_random_sequence(base_root,
-                                 base_root->database->first->data, MAX_TWEET_LEN);
+                                 first, MAX_TWEET_LEN);
     }
     MarkovChain **point_to_base = &base_root ;
     //printf("\n%d",base_root->database->size);
