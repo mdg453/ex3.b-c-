@@ -39,7 +39,8 @@ static bool is_last_func_tweets(const void* last){
     return strcmp((char *) (last_str + LAST_INDX(last_str)) , ".") == 0 ;
 }
 
-static int fill_database (FILE *fp, int words_to_read, MarkovChain *markov_chain){
+static int fill_database (FILE *fp, int words_to_read,
+                          MarkovChain *markov_chain){
     char text[NUM1000 + 1];
     char *token;
     MarkovNode * previus_word = NULL;
