@@ -50,6 +50,9 @@ typedef struct Cell {
 static void print_func_snake(const void * to_print) {
     const Cell *c = (Cell*) to_print ;
     printf("[%d]",c->number) ;
+    if(c->number == BOARD_SIZE){
+        return;
+    }
     if (c->ladder_to != EMPTY){
         printf("-ladder to %d -> ",c->ladder_to) ;
     }
@@ -80,11 +83,11 @@ static void* copy_fun_snake (const void * cp){
     return coppied_cell;
 }
 static bool is_last_func_snake(const void* last){
-    Cell * last_cell = (Cell *) (last) ;
+    Cell * last_cell = (Cell *)(last) ;
     if(last_cell->number == BOARD_SIZE) {
-        return  EXIT_FAILURE ;
+        return  1 ;
     }
-    return  EXIT_SUCCESS ;
+    return  0 ;
 }
 
 /** Error handler **/
