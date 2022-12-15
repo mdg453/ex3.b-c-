@@ -14,7 +14,7 @@
 
 void print_func_tweets(const void * to_print) {
     const char *s = to_print ;
-    printf("%s",s) ;
+    printf("%s ",s) ;
 }
 
 static int comp_fun_tweets (const void* a , const void * b) {
