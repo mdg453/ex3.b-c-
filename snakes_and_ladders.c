@@ -6,7 +6,8 @@
 #define EMPTY -1
 #define BOARD_SIZE 100
 #define MAX_GENERATION_LENGTH 60
-
+#define WRONG_INPUT "Usage: int int"
+#define ARGC3 3
 #define DICE_MAX 6
 #define NUM_OF_TRANSITIONS 20
 
@@ -45,9 +46,46 @@ typedef struct Cell {
     //both ladder_to and snake_to should be -1 if the Cell doesn't have them
 } Cell;
 
+void print_fun(const void * to_print) {
+    const Cell *c = (Cell*)to_print ;
+    printf("[%d]",c->number) ;
+    if (c->ladder_to != EMPTY){
+        printf("-ladder to %d",c->ladder_to) ;
+    }
+    if (c->snake_to != EMPTY){
+        printf("-snake to %d",c->snake_to) ;
+    }
+    printf(" -> ") ;
+}
+
+static int comp_fun (const void* a , const void * b) {
+    const Cell* a1 = a ;
+    const Cell * b1 = b ;
+    return(a1->number == b1->number) ;
+}
+
+static void free_data_fun (void * dp) {
+    free(dp) ;
+}
+
+static void* copy_fun (const void * cp){
+    Cell * cell_to_copy = (Cell *) cp ;
+    Cell * coppied_cell = malloc(sizeof(Cell)) ;
+    coppied_cell->snake_to = cell_to_copy->snake_to ;
+    coppied_cell->ladder_to = cell_to_copy->ladder_to ;
+    coppied_cell->number = cell_to_copy->number ;
+    return coppied_cell  ;
+}
+static bool is_last_func(const void* last){
+    Cell * last_cell = (Cell *) (last) ;
+    if(last_cell->number == 100) {
+        return  1 ;
+    }
+    return  0 ;
+}
+
 /** Error handler **/
-static int handle_error(char *error_msg, MarkovChain **database)
-{
+static int handle_error(char *error_msg, MarkovChain **database) {
     printf("%s", error_msg);
     if (database != NULL)
     {
@@ -148,7 +186,43 @@ static int fill_database(MarkovChain *markov_chain)
  *             2) Number of sentences to generate
  * @return EXIT_SUCCESS or EXIT_FAILURE
  */
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
+    if(argc != ARGC3){
+        fprintf(stderr, WRONG_INPUT) ;
+        return EXIT_FAILURE ;
+    }
+    int seed = (int)strtol(argv[1], NULL, 10);
+    srand(seed);
 
+    int players_num = (int) strtol(argv[2], NULL, 10);
+    if (players_num < 1){
+        fprintf(stderr, WRONG_INPUT) ;
+        return EXIT_FAILURE ;
+    }
+    Cell *cell = malloc(sizeof (Cell)) ;
+    if (cell == NULL){
+        fprintf(stderr, ALLOCATION_ERROR_MASSAGE) ;
+        return EXIT_FAILURE ;
+    }
+    *cell = (Cell ){0,-1,-1} ;
+    MarkovChain * base_root = calloc(1, sizeof (MarkovChain));
+    if(base_root == NULL) {
+        fprintf(stderr, ALLOCATION_ERROR_MASSAGE) ;
+        return EXIT_FAILURE;
+    }
+    LinkedList * linked_list = malloc(sizeof(LinkedList)) ;
+    if(linked_list == NULL) {
+        fprintf(stderr, ALLOCATION_ERROR_MASSAGE) ;
+        return EXIT_FAILURE;
+    }
+    base_root->database = linked_list ;
+    *base_root = (MarkovChain){linked_list, &print_fun, &comp_fun,
+                               &free_data_fun,copy_fun,is_last_func} ;
+    fill_database(base_root) ;
+    for (int i = 0 ; i < players_num; i++){
+        printf("Random Walk %d: ", i) ;
+        generate_random_sequence(base_root,base_root->database->first->data,MAX_GENERATION_LENGTH) ;
+    }
+    MarkovChain **point_to_base = &base_root ;
+    free_markov_chain(point_to_base) ;
 }
