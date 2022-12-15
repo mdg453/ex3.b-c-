@@ -124,7 +124,7 @@ void free_markov_chain(MarkovChain ** ptr_chain){
         return;
     }
     for(int i = 0 ; i < markov_chain.database->size ; i++) {
-        free(markov_chain.database->first->data->data) ;
+        markov_chain.free_data(markov_chain.database->first->data->data) ;
         free(markov_chain.database->first->data->counter_list) ;
         free(markov_chain.database->first->data) ;
         markov_chain.database->first = markov_chain.database->first->next ;
