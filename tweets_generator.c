@@ -24,7 +24,7 @@ static int comp_fun_tweets (const void* a , const void * b) {
 }
 
 static void free_data_fun_tweets (void * dp) {
-    free_markov_chain(dp) ;
+   free(dp) ;
 }
 
 static void* copy_fun_tweets (const void * cp){
