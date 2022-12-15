@@ -68,7 +68,7 @@ static void print_func_snake(const void * to_print) {
 static int comp_fun_snake (const void* a , const void * b) {
     const Cell* a1 = a ;
     const Cell * b1 = b ;
-    return(a1->number == b1->number) ;
+    return(a1->number - b1->number) ;
 }
 
 static void free_data_fun_snake (void * dp) {
