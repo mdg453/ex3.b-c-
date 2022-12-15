@@ -7,7 +7,8 @@
 #include <stdbool.h> // for bool
 #include <errno.h>
 
-#define ALLOCATION_ERROR_MASSAGE "Allocation failure: Failed to allocate new memory\n"
+#define ALLOCATION_ERROR_MASSAGE "Allocation failure: Failed to allocate new" \
+                                                                    " memory\n"
 typedef void(*print_func)(const void *) ;
 typedef int(*comp_func) (const void*, const void *) ;
 typedef void (*free_data)(void *) ;
@@ -30,7 +31,8 @@ typedef struct MarkovChain {
 } MarkovChain;
 
 typedef struct NextNodeCounter {
-    struct MarkovNode *markov_node ; //point to the node with the next possible word
+    struct MarkovNode *markov_node ; //point to the node with the next
+    // possible word
     int frequency;//counts the number of times that word2
     // appears right after word 1 in the text
 } NextNodeCounter;
@@ -60,7 +62,8 @@ MarkovNode* get_next_random_node(MarkovNode *state_struct_ptr);
  * Receive markov_chain, generate and print random sentence out of it. The
  * sentence most have at least 2 words in it.
  * @param markov_chain
- * @param first_node markov_node to start with, if NULL- choose a random markov_node
+ * @param first_node markov_node to start with, if NULL- choose a
+ * random markov_node
  * @param  max_length maximum length of chain to generate
  */
 void generate_random_sequence(MarkovChain *markov_chain, MarkovNode *
@@ -85,7 +88,8 @@ bool add_node_to_counter_list(MarkovNode *first_node, MarkovNode
 *second_node, MarkovChain *markov_chain);
 
 /**
-* Check if data_ptr is in database. If so, return the markov_node wrapping it in
+* Check if data_ptr is in database. If so, return the markov_node
+ * wrapping it in
  * the markov_chain, otherwise return NULL.
  * @param markov_chain the chain to look in its database
  * @param data_ptr the state to look for

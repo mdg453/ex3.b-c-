@@ -44,12 +44,14 @@ static int fill_database (FILE *fp, int words_to_read, MarkovChain *markov_chain
     char *token;
     MarkovNode * previus_word = NULL;
     Node * current_word ;
-    while(fgets(text ,NUM_OF_CHARS,fp ) != NULL && words_to_read) {
+    while(fgets(text ,NUM_OF_CHARS,fp ) != NULL && words_to_read)
+    {
         text[strcspn(text, "\n")] = '\0' ;
         token = strtok(text, " \r\n");
         while(token != NULL && words_to_read > 0) {
             current_word = add_to_database(markov_chain, token) ;
-            add_node_to_counter_list(previus_word, current_word->data, markov_chain);
+            add_node_to_counter_list(previus_word, current_word->data,
+                                     markov_chain);
 //            previus_word = copy_fun(current_word->data) ;
             previus_word = current_word->data;
             token = strtok(NULL, " \r\n");

@@ -81,7 +81,6 @@ static void* copy_fun_snake (const void * cp){
     Cell * cell_to_copy = (Cell *) cp ;
     Cell * coppied_cell = malloc(sizeof(Cell)) ;
     memcpy(coppied_cell, cell_to_copy, sizeof(Cell));
-    //*coppied_cell = (Cell){cell_to_copy->number, cell_to_copy->ladder_to, cell_to_copy->snake_to};
     return coppied_cell;
 }
 static bool is_last_func_snake(const void* last){
@@ -158,7 +157,8 @@ static int fill_database(MarkovChain *markov_chain)
         if (cells[i]->snake_to != EMPTY || cells[i]->ladder_to != EMPTY)
         {
             index_to = MAX(cells[i]->snake_to,cells[i]->ladder_to) - 1;
-            to_node = get_node_from_database(markov_chain, cells[index_to])
+            to_node = get_node_from_database(markov_chain,
+                                             cells[index_to])
                     ->data;
             add_node_to_counter_list(from_node, to_node, markov_chain);
         }
@@ -171,7 +171,8 @@ static int fill_database(MarkovChain *markov_chain)
                 {
                     break;
                 }
-                to_node = get_node_from_database(markov_chain, cells[index_to])
+                to_node = get_node_from_database(markov_chain,
+                                                 cells[index_to])
                         ->data;
                 add_node_to_counter_list(from_node, to_node, markov_chain);
             }
@@ -215,15 +216,19 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, ALLOCATION_ERROR_MASSAGE) ;
         return EXIT_FAILURE;
     }
-    *base_root = (MarkovChain){linked_list, print_func_snake, comp_fun_snake,
-                               free_data_fun_snake, copy_fun_snake, is_last_func_snake} ;
+    *base_root = (MarkovChain){linked_list,
+                  print_func_snake, comp_fun_snake,
+                       free_data_fun_snake,
+                         copy_fun_snake, is_last_func_snake} ;
     if(fill_database(base_root)){
         fprintf(stderr, DATABASE_ERROR_MASSAGE) ;
         return EXIT_FAILURE;
     }
     for (unsigned int i = 1 ; i <= players_num; i++){
         printf("Random Walk %d: ", i) ;
-        generate_random_sequence(base_root,base_root->database->first->data,MAX_GENERATION_LENGTH) ;
+        generate_random_sequence(base_root,
+                                 base_root->database->first->data,
+                                 MAX_GENERATION_LENGTH) ;
     }
     MarkovChain **point_to_base = &base_root ;
     free_markov_chain(point_to_base) ;
