@@ -3,10 +3,6 @@
 #include <string.h>
 #define NUMS "not enough words for sentence"
 
-typedef int(*cmp_func_t)(const void *, const void *);
-typedef char* string ;
-
-
 /**
 * Get random number between 0 and max_number [0, max_number).
 * @param max_number maximal number to return (not including)
@@ -16,15 +12,6 @@ typedef char* string ;
 int get_random_number(int max_number)
 {
     return rand() % max_number;
-}
-
-void *my_memcpy (void* dest, const void *src, size_t size) {
-    char *d = (char *)dest ;
-    const char *s = (const char*) src ;
-    for (int i = 0 ; i < size ; ++i) {
-        d[i] = s [i] ;
-    }
-    return dest ;
 }
 
 /**
@@ -104,7 +91,6 @@ void generate_random_sequence(MarkovChain *markov_chain,
         first_node = get_next_random_node(first_node);
         if (!markov_chain->is_last(first_node->data)){
             markov_chain->print_func(first_node->data) ;
-            printf(" ") ;
         }
         else {
             markov_chain->print_func(first_node->data) ;
@@ -258,7 +244,7 @@ Node* add_to_database(MarkovChain *markov_chain, void *data_ptr){
         fprintf(stderr, ALLOCATION_ERROR_MASSAGE) ;
         return NULL ;
     }
-    my_memcpy(markov_node->data , data_ptr, strlen(data_ptr)+1);
+    markov_node->data = markov_chain->copy_func(data_ptr);
     markov_node->counter_list = NULL;
     markov_node->counter_list_size = 0;
     add(markov_chain->database, markov_node);

@@ -12,28 +12,28 @@
 #define LAST_INDX(s) (strlen(s) - 1)
 
 
-void print_func1(const void * to_print) {
+void print_func_tweets(const void * to_print) {
     const char *s = to_print ;
     printf("%s",s) ;
 }
 
-static int comp_fun (const void* a , const void * b) {
+static int comp_fun_tweets (const void* a , const void * b) {
     const char* a1 = a ;
     const char* b1 = b ;
     return(strcmp(a1,b1)) ;
 }
 
-static void free_data_fun (void * dp) {
+static void free_data_fun_tweets (void * dp) {
     free_markov_chain(dp) ;
 }
 
-static void* copy_fun (const void * cp){
+static void* copy_fun_tweets (const void * cp){
     char * str_to_cp =(char *) cp ;
     char * coppied_str = malloc(strlen((char *)str_to_cp)+1) ;
     strcpy(coppied_str, str_to_cp) ;
     return coppied_str  ;
 }
-static bool is_last_func(const void* last){
+static bool is_last_func_tweets(const void* last){
 
     char * last_str = (char *) (last) ;
     return strcmp((char *) (last_str + LAST_INDX(last_str)) , ".") == 0 ;
@@ -81,8 +81,8 @@ int main(int argc ,char* argv[]){
         fprintf(stderr,ALLOCATION_ERROR_MASSAGE) ;
         return EXIT_FAILURE ;
     }
-    *base_root = (MarkovChain){linked_list, &print_func1, &comp_fun,
-                               &free_data_fun,copy_fun,is_last_func} ;
+    *base_root = (MarkovChain){linked_list, print_func_tweets, comp_fun_tweets,
+                               free_data_fun_tweets,copy_fun_tweets,is_last_func_tweets} ;
 
     base_root->database = linked_list ;
     FILE* in = fopen ( input_path, "r") ;
